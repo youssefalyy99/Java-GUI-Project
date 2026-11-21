@@ -4,7 +4,7 @@ abstract class Employee {
     private String Position;
     private int Age;
     private Department dep;
-    protected String Type;
+    private String Type;
 
     Employee(int ID, String FullName, int age ,String Position, Department dep){
         this.ID = ID;
@@ -19,6 +19,7 @@ abstract class Employee {
     public void setFullName(String fullName){FullName = fullName;}
     public void setID(int iD){ID = iD;}
     public void setPosition(String position){Position = position;}
+    protected void setType(String type){this.Type = type;}
     
     public int getAge(){return Age;}
     public Department getDep(){return dep;}
@@ -28,4 +29,5 @@ abstract class Employee {
     public String getType(){return Type;}
 
     abstract String toCSVLine();
+    abstract double CalculateSalary();
 }
