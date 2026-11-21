@@ -6,7 +6,7 @@ public class PartTimeEmployee extends Employee {
         super(ID, FullName, age, Position, dep);
         this.hourlyRate = hr;
         this.hoursWorked = hw;
-        this.Type = "Part Time";
+        setType("Part Time");
     }
 
     public double getHourlyRate() {return hourlyRate;}
@@ -15,7 +15,11 @@ public class PartTimeEmployee extends Employee {
     public void setHourlyRate(double hourlyRate) {this.hourlyRate = hourlyRate;}
     public void setHoursWorked(double hoursWorked){this.hoursWorked = hoursWorked;}
 
-    public double CalculateSalary(){return this.hourlyRate*this.hoursWorked;}
+    @Override
+    public double CalculateSalary(){
+        return this.hourlyRate*this.hoursWorked;
+    }
+    
     @Override
     String toCSVLine(){
         return getID()+","+getFullName()+","+getAge()+","+getType()+","+getPosition()+","+getDep().getDepartmentID()+","+CalculateSalary();
