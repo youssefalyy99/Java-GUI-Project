@@ -6,14 +6,15 @@ public class FullTimeEmployee extends Employee {
         super(ID, FullName, age, Position, dep);
         this.BasicSalary = BasicSalary;
         this.Bonus = Bonus;
-        this.Type = "Full Time";
+        setType("Full Time");
     }
 
     @Override
     String toCSVLine(){
-        return getID()+","+getFullName()+","+getAge()+","+getType()+","+getPosition()+","+getDep().getDepartmentID()+","+getBasicSalary();
+        return getID()+","+getFullName()+","+getAge()+","+getType()+","+getPosition()+","+getDep().getDepartmentID()+","+CalculateSalary();
     }
 
+    @Override
     public double CalculateSalary(){
         return this.BasicSalary + this.Bonus;
     }
