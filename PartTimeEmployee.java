@@ -34,6 +34,6 @@ public void setHoursWorked(double hoursWorked) {
     
     @Override
     String toCSVLine(){
-        return getID()+","+getFullName()+","+getAge()+","+getType()+","+getPosition()+","+getDep().getName()+","+getHourlyRate()+","+getHoursWorked();
+        return getID()+","+getFullName()+","+getAge()+","+getType()+","+getPosition()+","+getDep().getDepartmentID()+","+getHourlyRate()+","+getHoursWorked();
     }
 }
