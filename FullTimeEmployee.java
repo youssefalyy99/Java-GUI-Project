@@ -11,7 +11,7 @@ public class FullTimeEmployee extends Employee {
 
     @Override
     String toCSVLine(){
-        return getID()+","+getFullName()+","+getAge()+","+getType()+","+getPosition()+","+getDep().getDepartmentID()+","+CalculateSalary();
+        return getID()+","+getFullName()+","+getAge()+","+getType()+","+getPosition()+","+getDep().getDepartmentID()+","+CalculateSalary()+"\n";
     }
 
     @Override
