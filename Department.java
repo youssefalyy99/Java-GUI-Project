@@ -2,6 +2,11 @@ public class Department{
     private int DepartmentID;
     private String Name;
 
+    Department(int DepartmentID, String Name) {
+        this.DepartmentID = DepartmentID;
+        this.Name = Name;
+    }
+    
     public int getDepartmentID(){return DepartmentID;}
     public String getName(){return Name;}
 
