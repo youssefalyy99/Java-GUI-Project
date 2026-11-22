@@ -28,12 +28,12 @@ public void setHoursWorked(double hoursWorked) {
 
     @Override
     public double CalculateSalary(){
-        totalSalary = this.hourlyRate*this.hoursWorked;
+        setTotalSalary(this.hourlyRate*this.hoursWorked);
         return this.hourlyRate*this.hoursWorked;
     }
     
     @Override
     String toCSVLine(){
-        return getID()+","+getFullName()+","+getAge()+","+getType()+","+getPosition()+","+getDep().getName()+","+getHourlyRate()+","+getHoursWorked()+","+CalculateSalary()+"\n";
+        return getID()+","+getFullName()+","+getAge()+","+getType()+","+getPosition()+","+getDep().getName()+","+getHourlyRate()+","+getHoursWorked();
     }
 }
