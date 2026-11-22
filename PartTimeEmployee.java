@@ -12,16 +12,28 @@ public class PartTimeEmployee extends Employee {
     public double getHourlyRate() {return hourlyRate;}
     public double getHoursWorked() {return hoursWorked;}
 
-    public void setHourlyRate(double hourlyRate) {this.hourlyRate = hourlyRate;}
-    public void setHoursWorked(double hoursWorked){this.hoursWorked = hoursWorked;}
+    public void setHourlyRate(double hourlyRate) {
+    if (hourlyRate < 0) {
+        throw new IllegalArgumentException("Hourly rate cannot be negative: " + hourlyRate);
+    }
+    this.hourlyRate = hourlyRate;
+}
+
+public void setHoursWorked(double hoursWorked) {
+    if (hoursWorked < 0) {
+        throw new IllegalArgumentException("Hours worked cannot be negative: " + hoursWorked);
+    }
+    this.hoursWorked = hoursWorked;
+}
 
     @Override
     public double CalculateSalary(){
+        totalSalary = this.hourlyRate*this.hoursWorked;
         return this.hourlyRate*this.hoursWorked;
     }
     
     @Override
     String toCSVLine(){
-        return getID()+","+getFullName()+","+getAge()+","+getType()+","+getPosition()+","+getDep().getName()+","+getHourlyRate()+","+getHoursWorked()+"\n";
+        return getID()+","+getFullName()+","+getAge()+","+getType()+","+getPosition()+","+getDep().getName()+","+getHourlyRate()+","+getHoursWorked()+","+CalculateSalary()+"\n";
     }
 }
