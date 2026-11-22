@@ -22,6 +22,6 @@ public class PartTimeEmployee extends Employee {
     
     @Override
     String toCSVLine(){
-        return getID()+","+getFullName()+","+getAge()+","+getType()+","+getPosition()+","+getDep().getName()+","+CalculateSalary()+"\n";
+        return getID()+","+getFullName()+","+getAge()+","+getType()+","+getPosition()+","+getDep().getName()+","+getHourlyRate()+","+getHoursWorked()+"\n";
     }
 }
