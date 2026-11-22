@@ -8,5 +8,5 @@ public class Department{
     public void setDepartmentID(int departmentID) {DepartmentID = departmentID;}
     public void setName(String name){Name = name;}
 
-    public String toCSVLine(){return this.DepartmentID + "," + this.Name;}
+    public String toCSVLine(){return this.DepartmentID + "," + this.Name+"\n";}
 }
