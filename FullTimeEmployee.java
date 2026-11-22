@@ -11,17 +11,25 @@ public class FullTimeEmployee extends Employee {
 
     @Override
     String toCSVLine(){
-        return getID()+","+getFullName()+","+getAge()+","+getType()+","+getPosition()+","+getDep().getName()+","+getBasicSalary()+","+getBonus()+"\n";
+        return getID()+","+getFullName()+","+getAge()+","+getType()+","+getPosition()+","+getDep().getName()+","+getBasicSalary()+","+getBonus()+","+CalculateSalary()+"\n";
     }
 
     @Override
     public double CalculateSalary(){
+        this.totalSalary = this.BasicSalary + this.Bonus;
         return this.BasicSalary + this.Bonus;
     }
 
     public double getBasicSalary() {return BasicSalary;}
     public double getBonus(){return Bonus;}
 
-    public void setBasicSalary(double basicSalary){BasicSalary = basicSalary;}
-    public void setBonus(double bonus){Bonus = bonus;}
+    public void setBasicSalary(double basicSalary){
+        if (basicSalary < 0) throw new IllegalArgumentException("Basic salary cannot be negative.");
+        this.BasicSalary = basicSalary;
+    }
+
+    public void setBonus(double bonus){
+        if (bonus < 0) throw new IllegalArgumentException("Bonus cannot be negative.");
+        this.Bonus = bonus;
+    }
 }
