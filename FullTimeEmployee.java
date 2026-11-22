@@ -11,12 +11,12 @@ public class FullTimeEmployee extends Employee {
 
     @Override
     String toCSVLine(){
-        return getID()+","+getFullName()+","+getAge()+","+getType()+","+getPosition()+","+getDep().getName()+","+getBasicSalary()+","+getBonus()+","+CalculateSalary()+"\n";
+        return getID()+","+getFullName()+","+getAge()+","+getType()+","+getPosition()+","+getDep().getName()+","+getBasicSalary()+","+getBonus();
     }
 
     @Override
     public double CalculateSalary(){
-        this.totalSalary = this.BasicSalary + this.Bonus;
+        setTotalSalary(this.BasicSalary + this.Bonus);
         return this.BasicSalary + this.Bonus;
     }
 
