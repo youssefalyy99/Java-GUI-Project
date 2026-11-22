@@ -5,7 +5,7 @@ public abstract class Employee {
     private int Age;
     private Department dep;
     private String Type;
-    public double totalSalary;
+    private double totalSalary;
 
     Employee(int ID, String FullName, int age ,String Position, Department dep){
         this.ID = ID;
@@ -14,12 +14,22 @@ public abstract class Employee {
         this.dep = dep;
         this.Age = age;
     }
-    
+
+    public void setTotalSalary(double totalSalary) {
+        this.totalSalary = totalSalary;
+    }
+    public double getTotalSalary() {
+        return totalSalary;
+    }
+
     public void setID(int id) {
         if (id <= 0) throw new IllegalArgumentException("ID must be a positive integer.");
         this.ID = id;
     }
-    public void setAge(int age) {Age = age;}
+    public void setAge(int age) {
+        if (age <= 0) throw new IllegalArgumentException("Age must be a positive integer.");
+        this.Age = age;
+    }
 
     public void setDepartment(Department d) {
         if (d == null) throw new IllegalArgumentException("A valid department must be selected.");
