@@ -1,111 +1,99 @@
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+package BackEnd;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileHandler {
 
-    private File employeesFile;
-    private File departmentsFile;
+    private final File employeesFile = new File("data/employees.txt");
+    private final File departmentsFile = new File("data/departments.txt");
 
     public FileHandler() {
+        File dir = employeesFile.getParentFile();
+        if (dir != null && !dir.exists()) dir.mkdirs();  
+    }
 
-        employeesFile = new File("data/employees.txt");
-        departmentsFile = new File("data/departments.txt");
+   
 
-        if (employeesFile.exists() && departmentsFile.exists()) {
-            System.out.println("Files exist");
-        } else {
-            System.out.println("One or both files do not exist");
+    public void saveDepartments(List<Department> departments) throws IOException {
+        try (BufferedWriter w = new BufferedWriter(new FileWriter(departmentsFile))) {
+            for (Department d : departments) {
+                w.write(d.toCSVLine());
+                w.newLine();
+            }
+        }
+    }
+
+    public void saveEmployees(List<Employee> employees) throws IOException {
+        try (BufferedWriter w = new BufferedWriter(new FileWriter(employeesFile))) {
+            for (Employee e : employees) {
+                w.write(e.toCSVLine());
+                w.newLine();
+            }
         }
     }
 
     
-    
-    public void saveEmployees(Employee employee) {
 
-        try (FileWriter writer = new FileWriter(employeesFile, true)) {
+    public List<Department> loadDepartments() throws IOException {
+        List<Department> list = new ArrayList<>();
+        if (!departmentsFile.exists()) return list;
 
-            writer.write(employee.toCSVLine() + "\n");
-
-        } catch (IOException e) {
-            System.out.println("Could not write file");
+        try (BufferedReader r = new BufferedReader(new FileReader(departmentsFile))) {
+            String line;
+            while ((line = r.readLine()) != null) {
+                if (line.isBlank()) continue;
+                try {
+                    String[] p = line.split(",");
+                    list.add(new Department(Integer.parseInt(p[0].trim()), p[1]));
+                } catch (Exception ex) {
+                    System.err.println("Skipping bad department line: " + line);
+                }
+            }
         }
+        return list;
     }
 
+    public List<Employee> loadEmployees(List<Department> departments) throws IOException {
+        List<Employee> list = new ArrayList<>();
+        if (!employeesFile.exists()) return list;
 
+        try (BufferedReader r = new BufferedReader(new FileReader(employeesFile))) {
+            String line;
+            while ((line = r.readLine()) != null) {
+                if (line.isBlank()) continue;
+                try {
+                    String[] p = line.split(",");
+                    int id = Integer.parseInt(p[0].trim());
+                    String name = p[1];
+                    int age = Integer.parseInt(p[2].trim());
+                    String type = p[3].trim();
+                    String position = p[4];
+                    int depId = Integer.parseInt(p[5].trim());
+                    double a = Double.parseDouble(p[6].trim());
+                    double b = Double.parseDouble(p[7].trim());
 
+                    Department dep = null;
+                    for (Department d : departments) {
+                        if (d.getDepartmentID() == depId) { dep = d; break; }
+                    }
+                    if (dep == null) throw new IllegalArgumentException("Unknown department " + depId);
 
-
-  public void saveDepartments(Department department){
-     try (FileWriter writer = new FileWriter(departmentsFile, true)) {
-
-            writer.write(department.toCSVLine() + "\n");
-
-        } catch (IOException e) {
-            System.out.println("Could not write file");
+                    Employee e;
+                    if (type.equals("Full Time")) {
+                        e = new FullTimeEmployee(id, name, age, position, dep, a, b);
+                    } else if (type.equals("Part Time")) {
+                        e = new PartTimeEmployee(id, name, age, position, dep, a, b);
+                    } else {
+                        throw new IllegalArgumentException("Unknown type " + type);
+                    }
+                    list.add(e);
+                } catch (Exception ex) {
+                    System.err.println("Skipping bad employee line: " + line);
+                }
+            }
         }
-  
-  }
-
-public void loadEmployees(){
-    try(BufferedReader reader = new BufferedReader(new FileReader(employeesFile))){
-        String line;
-        while((line = reader.readLine()) != null){
-            System.out.println(line);}
+        return list;
     }
-    catch(FileNotFoundException e){
-        System.out.println("File not Found");
-    }
-    catch(IOException e){
-        System.out.println("Something went wrong");
-    }
-            
 }
-
-
-
-public void loadDepartments(){
-
-    try(BufferedReader reader = new BufferedReader(new FileReader(departmentsFile))){
-        String line;
-        while((line = reader.readLine()) != null){
-            System.out.println(line);}
-    }
-    catch(FileNotFoundException e){
-        System.out.println("File not Found");
-    }
-    catch(IOException e){
-        System.out.println("Something went wrong");
-    }
-
-
-}
-
-
-
-
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-
