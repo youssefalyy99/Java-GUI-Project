@@ -26,8 +26,6 @@ public class DepartmentManager {
     public void setEmployeeManager(EmployeeManager employeeManager) {
         this.employeeManager = employeeManager;
     }
-    
-    
 
     public Department findById(int id) {
         for (Department d : departments) {
@@ -92,8 +90,14 @@ public class DepartmentManager {
         if (findByName(name) != null) {
             throw new IllegalArgumentException("Department name already exists.");
         }
-        departments.add(new Department(id, name));
-        save();
+        Department d = new Department(id, name);
+        departments.add(d);
+        try {
+            save();
+        } catch (IOException ex) {
+            departments.remove(d);
+            throw ex;
+        }
     }
 
     public void updateDepartment(int id, String newName) throws IOException {
@@ -111,21 +115,33 @@ public class DepartmentManager {
             throw new IllegalArgumentException("Department name already exists.");
         }
 
+        String oldName = d.getName();
         d.setName(newName);
-        save();
+        try {
+            save();
+        } catch (IOException ex) {
+            d.setName(oldName);
+            throw ex;
+        }
     }
 
     public void deleteDepartment(int id) throws IOException {
         Department d = findById(id);
-        
+
         if (d == null) {
-            throw new IllegalArgumentException("Department not found.   ");
+            throw new IllegalArgumentException("Department not found.");
         }
-        if (employeeManager!= null && employeeManager.hasEmployeesInDepartment(d)) {
+        if (employeeManager != null && employeeManager.hasEmployeesInDepartment(d)) {
             throw new IllegalArgumentException("Cannot delete a department that still has employees.");
         }
+        int index = departments.indexOf(d);
         departments.remove(d);
-        save();
+        try {
+            save();
+        } catch (IOException ex) {
+            departments.add(index, d);
+            throw ex;
+        }
     }
 
 }
